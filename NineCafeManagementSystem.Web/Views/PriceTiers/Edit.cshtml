@@ -1,0 +1,31 @@
+﻿@model PriceTierUpdateVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Price Tier</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="PriceRiel" class="control-label"></label>
+                <input asp-for="PriceRiel" class="form-control" />
+                <span asp-validation-for="PriceRiel" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-warning" />
+                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

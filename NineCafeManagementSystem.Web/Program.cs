@@ -1,3 +1,5 @@
+using NineCafeManagementSystem.Web.Data.Seeders;
+
 namespace NineCafeManagementSystem.Web
 {
     public class Program
@@ -5,6 +7,21 @@ namespace NineCafeManagementSystem.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add connectionstring
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") 
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
+
+            // register services
+            builder.Services.AddScoped<IPriceTierService, PriceTierService>(); 
+
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false; // set false for development purpose
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>(); // <-- Identity with EF Core
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -19,8 +36,20 @@ namespace NineCafeManagementSystem.Web
                 app.UseHsts();
             }
 
+            // Seed Roles and Users
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                RoleSeeder.SeedRolesAsync(services).GetAwaiter().GetResult();  // <-- This works better than .Wait()
+                UserSeeder.SeedUsersAsync(services).GetAwaiter().GetResult();
+            }
+
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseStaticFiles();
+            app.MapRazorPages();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

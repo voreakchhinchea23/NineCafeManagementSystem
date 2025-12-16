@@ -1,0 +1,10 @@
+﻿global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
+global using NineCafeManagementSystem.Web.Data;
+global using System.ComponentModel.DataAnnotations;
+global using NineCafeManagementSystem.Web.Models.PriceTiers;
+global using NineCafeManagementSystem.Web.Services.PriceTiers;
+global using Microsoft.AspNetCore.Mvc;
+global using NineCafeManagementSystem.Web.Common;
+global using NineCafeManagementSystem.Web.Models.Users;
