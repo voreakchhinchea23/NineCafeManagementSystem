@@ -1,5 +1,8 @@
 using NineCafeManagementSystem.Web.Data.Seeders;
 using NineCafeManagementSystem.Web.Services.Users;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using NineCafeManagementSystem.Web.Data;
 
 namespace NineCafeManagementSystem.Web
 {

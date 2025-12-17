@@ -1,8 +1,10 @@
-﻿namespace NineCafeManagementSystem.Web.Controllers
+﻿
+namespace NineCafeManagementSystem.Web.Controllers
 {
+    [Authorize]
     public class PriceTiersController(IPriceTierService _priceTierService) : Controller
     {
-
+        
         // GET: PriceTiers
         public async Task<IActionResult> Index()
         {
@@ -55,6 +57,7 @@
         }
 
         // GET: PriceTiers/Edit/5
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -71,8 +74,7 @@
         }
 
         // POST: PriceTiers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PriceTierUpdateVM model)
@@ -111,6 +113,7 @@
         }
 
         // GET: PriceTiers/Delete/5
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,6 +130,7 @@
             return View(priceTier);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         // POST: PriceTiers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

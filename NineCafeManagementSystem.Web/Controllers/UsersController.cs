@@ -1,8 +1,6 @@
-﻿using NineCafeManagementSystem.Web.Services.Users;
-using System.Threading.Tasks;
-
-namespace NineCafeManagementSystem.Web.Controllers
+﻿namespace NineCafeManagementSystem.Web.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class UsersController(IUserService _userService) : Controller
     {
         public async Task<IActionResult> Index()
