@@ -1,4 +1,5 @@
 using NineCafeManagementSystem.Web.Data.Seeders;
+using NineCafeManagementSystem.Web.Services.Users;
 
 namespace NineCafeManagementSystem.Web
 {
@@ -15,6 +16,7 @@ namespace NineCafeManagementSystem.Web
 
             // register services
             builder.Services.AddScoped<IPriceTierService, PriceTierService>(); 
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

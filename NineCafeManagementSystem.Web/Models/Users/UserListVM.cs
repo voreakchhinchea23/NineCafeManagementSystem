@@ -11,6 +11,8 @@
         public string Email { get; set; } = string.Empty;
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; } = string.Empty;
+        [Display(Name = "Role")]
+        public string Role { get; set; } = "None";
 
     }
 }

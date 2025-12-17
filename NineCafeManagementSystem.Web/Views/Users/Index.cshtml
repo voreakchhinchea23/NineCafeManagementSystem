@@ -1,0 +1,100 @@
+﻿@model IEnumerable<UserListVM>
+@{
+    ViewData["Title"] = "User";
+
+    int index = 1;
+}
+
+<h1>User Table</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            
+            <th>
+                Full Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none;">
+                        @index
+                    </a>
+                </td>
+                <td>
+                    @item.FirstName @item.LastName
+                   
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <button class="btn btn-sm btn-danger btnDelete" data-id="@item.Id">Delete</button>
+                </td>
+            </tr>
+
+            index++;
+        }
+
+
+    </tbody>
+
+</table>
+
+<form asp-action="Delete" id="userForm">
+    <input type="hidden" name="id" id="userId" />
+</form>
+
+@section Scripts {
+    <script>
+        $(function(){
+            $('.btnDelete').click(
+                function(e){
+                    swal({
+                        title: "Are you sure?",
+                        text: "Are you sure you want to delete this price?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true
+                    }).then((confirm) => {
+                        if(confirm){
+                            var btn = $(this);
+                            var id = btn.data("id");
+                            $('#userId').val(id);
+                            $('#userForm').submit();
+                        }
+                    });
+                }
+            );
+        });
+    </script>
+}
+
+
