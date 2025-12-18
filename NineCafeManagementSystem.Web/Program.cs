@@ -3,6 +3,7 @@ using NineCafeManagementSystem.Web.Services.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NineCafeManagementSystem.Web.Data;
+using NineCafeManagementSystem.Web.Services.Dashboards;
 
 namespace NineCafeManagementSystem.Web
 {
@@ -20,6 +21,7 @@ namespace NineCafeManagementSystem.Web
             // register services
             builder.Services.AddScoped<IPriceTierService, PriceTierService>(); 
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IDashboardService , DashboardService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

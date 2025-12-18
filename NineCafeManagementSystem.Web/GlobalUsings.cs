@@ -12,3 +12,5 @@ global using System.Security.Claims;
 global using Microsoft.AspNetCore.Mvc.RazorPages;
 global using Microsoft.AspNetCore.Authorization;
 global using NineCafeManagementSystem.Web.Services.Users;
+global using NineCafeManagementSystem.Web.Models.Dashboards;
+global using NineCafeManagementSystem.Web.Services.Dashboards;
