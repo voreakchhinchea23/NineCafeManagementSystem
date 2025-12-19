@@ -56,6 +56,10 @@ namespace NineCafeManagementSystem.Web.Controllers
             return View(model);
         }
 
+
+        // -- Leave it for now -- 
+        // Uncomment in Version 2
+        /*
         // GET: PriceTiers/Edit/5
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Edit(int? id)
@@ -139,7 +143,7 @@ namespace NineCafeManagementSystem.Web.Controllers
             await _priceTierService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
+        */
         
     }
 }

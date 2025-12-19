@@ -18,9 +18,9 @@
     </dl>
 </div>
 <div>
-    @if (User.IsInRole(Roles.Admin))
+    @* @if (User.IsInRole(Roles.Admin))
     {
         <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-    }
+    } *@
     <a class="btn btn-sm btn-outline-primary" asp-action="Index">Back to List</a>
 </div>
