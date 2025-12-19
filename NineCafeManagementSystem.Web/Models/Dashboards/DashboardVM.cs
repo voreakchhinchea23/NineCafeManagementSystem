@@ -11,6 +11,8 @@
         // withdrawal
         public List<Withdrawal> TotalWithdrawals { get; set; } = new();
         public decimal TotalWithdrawnToday { get; set; }
+        public bool IsEditingWithdrawal { get; set; }
+        public WithdrawalUpdateVM WithdrawalToEdit { get; set; }
 
     }
 }

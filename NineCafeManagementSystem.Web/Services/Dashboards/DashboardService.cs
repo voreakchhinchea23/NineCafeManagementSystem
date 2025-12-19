@@ -124,5 +124,41 @@ namespace NineCafeManagementSystem.Web.Services.Dashboards
                 .OrderByDescending(q => q.Id)
                 .ToListAsync();
         }
+
+        public async Task<WithdrawalUpdateVM?> GetWithdrawalUpdateAsync(int id)
+        {
+            return await _context.Withdrawals
+                .Where(q => q.Id == id)
+                .Select(q => new WithdrawalUpdateVM
+                {
+                    Id = q.Id,
+                    Amount = q.Amount,
+                    Reason = q.Reason,
+                    WithdrawDate = q.WithdrawDate
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task EditWithdrawalAsync(WithdrawalUpdateVM model)
+        {
+            await _context.Withdrawals
+                .Where(q => q.Id == model.Id)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(e => e.Amount, model.Amount)
+                    .SetProperty(e => e.Reason, model.Reason)
+                );
+        }
+
+        public async Task RemoveWithdrawalAsync(int id)
+        {
+            var data = await _context.Withdrawals.FindAsync(id);
+            if (data != null)
+            {
+                _context.Withdrawals.Remove(data);
+                await _context.SaveChangesAsync();
+            }
+
+
+        }
     }
 }

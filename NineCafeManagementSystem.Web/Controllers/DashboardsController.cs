@@ -1,4 +1,6 @@
-﻿namespace NineCafeManagementSystem.Web.Controllers
+﻿using NineCafeManagementSystem.Web.Data;
+
+namespace NineCafeManagementSystem.Web.Controllers
 {
     [Authorize]
     public class DashboardsController(IDashboardService _dashboardService) : Controller
@@ -54,5 +56,68 @@
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> EditWithdrawal(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var withdraw = await _dashboardService.GetWithdrawalUpdateAsync(id.Value);
+            if (withdraw == null) return NotFound();
+                                                                                                            
+            var selectedDate = DateOnly.FromDateTime(DateTime.Today);
+
+            var priceTiers = await _dashboardService.LoadPriceTierAsync();
+            var todaySales = await _dashboardService.GetSaleByDateAsync(selectedDate);
+            var withdrawals = await _dashboardService.GetWithdrawalByDateAsync(selectedDate);
+            var summary = await _dashboardService.GetDashboardSummaryAsync(selectedDate);
+
+            var totalWithdrawn = withdrawals.Sum(q => q.Amount);
+
+            var model = new DashboardVM
+            {
+                PriceTiers = priceTiers,
+                TodaySales = todaySales,
+                TotalWithdrawals = withdrawals,
+                SelectedDate = selectedDate,
+                TotalCupSold = summary.TotalCupSold,
+                DailyIncome = summary.DailyIncome,
+                TotalWithdrawnToday = totalWithdrawn,
+
+                IsEditingWithdrawal = true,
+                WithdrawalToEdit = withdraw,
+            };
+
+            return View(nameof(Index), model); // Render the same Index view
+
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditWithdrawal(int id,  WithdrawalUpdateVM model)
+        {
+            if (id != model.Id) return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _dashboardService.EditWithdrawalAsync(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteWithdraw(int id)
+        {
+            await _dashboardService.RemoveWithdrawalAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
