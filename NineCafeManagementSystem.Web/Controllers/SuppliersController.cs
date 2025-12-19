@@ -104,16 +104,16 @@ namespace NineCafeManagementSystem.Web.Controllers
             return View(supplier);
         }
 
-        [Authorize(Roles = Roles.Admin)]
-        // GET: Suppliers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            return RedirectToAction(nameof(Index));
-        }
+        //[Authorize(Roles = Roles.Admin)]
+        //// GET: Suppliers/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         [Authorize(Roles = Roles.Admin)]
         // POST: Suppliers/Delete/5

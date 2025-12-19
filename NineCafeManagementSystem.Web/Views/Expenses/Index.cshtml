@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ExpenseReadOnlyVM>
+
+@{
+    ViewData["Title"] = "Expenses";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h4 mb-0">Expenses</h1>
+    <a asp-action="Create" class="btn btn-primary">New Expense</a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Notes</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ExpenseDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.Amount.ToString("N0")</td>
+                        <td>@item.Description</td>
+                        <td class="text-muted">@item.Other</td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-1">View</a>
+                            <button class="btn btn-sm btn-danger btnDelete" data-id="@item.Id">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info d-flex align-items-center" role="alert">
+        <i class="bi bi-info-circle me-2"></i>
+        No expenses recorded yet.
+    </div>
+}
+
+<form asp-action="Delete" id="expForm">
+    <input type="hidden" name="id" id="expId" />
+</form>
+
+@section Scripts {
+    <script>
+        $(function(){
+            $('.btnDelete').click(
+                function(e){
+                    swal({
+                        title: "Confirm Delete?",
+                        text: "Are you sure you want to delete this expense?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true
+                    }).then((confirm) => {
+                        if(confirm){
+                            var btn = $(this);
+                            var id = btn.data("id");
+                            $('#expId').val(id);
+                            $('#expForm').submit();
+                        }
+                    });
+                }
+            );
+        });
+    </script>
+}

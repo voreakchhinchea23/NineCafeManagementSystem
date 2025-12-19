@@ -16,3 +16,5 @@ global using NineCafeManagementSystem.Web.Models.Dashboards;
 global using NineCafeManagementSystem.Web.Services.Dashboards;
 global using NineCafeManagementSystem.Web.Models.Suppliers;
 global using NineCafeManagementSystem.Web.Services.Suppliers;
+global using NineCafeManagementSystem.Web.Models.Expenses;
+global using NineCafeManagementSystem.Web.Services.ExpenseServices;
