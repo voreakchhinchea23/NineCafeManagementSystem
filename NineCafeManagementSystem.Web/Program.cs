@@ -22,6 +22,7 @@ namespace NineCafeManagementSystem.Web
             builder.Services.AddScoped<IPriceTierService, PriceTierService>(); 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IDashboardService , DashboardService>();
+            builder.Services.AddScoped<ISupplierService, SupplierService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

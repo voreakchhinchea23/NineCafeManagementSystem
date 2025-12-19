@@ -34,28 +34,7 @@
     </form>
 </div>
 
-
-
-<!-- Price Buttons (Responsive Row) -->
-@if (Model.SelectedDate == today)
-{
-    <div class="row g-2 mb-4">
-        @foreach (var item in Model.PriceTiers)
-        {
-            <div class="col-auto">
-                <form asp-action="RecordSale" method="post" class="d-inline">
-                    <input type="hidden" name="priceRiel" value="@item.PriceRiel" />
-                    <button type="submit" class="btn btn-primary btn-lg px-4">
-                        @item.PriceRiel
-                    </button>
-                </form>
-            </div>
-        }
-    </div>
-}
-
 <h3 class="mb-3">Sales for @Model.SelectedDate.ToString("dd/MM/yyyy")</h3>
-
 @if (Model.TodaySales.Any())
 {
     <!-- Summary Cards -->
@@ -71,7 +50,8 @@
                 </div>
             </div>
         }
-        else{
+        else
+        {
 
             <div class="col-md-4 mb-1">
                 <div class="card text-white bg-primary">
@@ -98,11 +78,31 @@
                 </div>
             </div>
         }
-        
-
-        
     </div>
+}
 
+<!-- Price Buttons (Responsive Row) -->
+@if (Model.SelectedDate == today)
+{
+    <div class="row g-2 mb-4">
+        @foreach (var item in Model.PriceTiers)
+        {
+            <div class="col-auto">
+                <form asp-action="RecordSale" method="post" class="d-inline">
+                    <input type="hidden" name="priceRiel" value="@item.PriceRiel" />
+                    <button type="submit" class="btn btn-primary btn-lg px-4">
+                        @item.PriceRiel
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+}
+
+
+
+@if (Model.TodaySales.Any())
+{
     <!-- Sales Table -->
     <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -110,7 +110,7 @@
                 <tr>
                     <th>Price</th>
                     <th>Cups Sold</th>
-                    <th class="text-end">Action</th>
+                    <th class="text-end"></th>
                 </tr>
             </thead>
             <tbody>
@@ -133,7 +133,7 @@
                                                style="width: 60px;"
                                                data-id="@item.Id" />
                                         <button class="btn btn-sm btn-warning btnEdit" data-id="@item.Id">
-                                            ✏️
+                                            Edit
                                         </button>
                                     </div>
                                 }

@@ -38,6 +38,7 @@ namespace NineCafeManagementSystem.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Edit(int priceTierId, int quantity)
         {
             await _dashboardService.EditSaleAsync(priceTierId, quantity);
@@ -114,6 +115,7 @@ namespace NineCafeManagementSystem.Web.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> DeleteWithdraw(int id)
         {
             await _dashboardService.RemoveWithdrawalAsync(id);

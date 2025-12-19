@@ -7,5 +7,6 @@
         public DbSet<PriceTier> PriceTiers { get; set; }
         public DbSet<DailySale> DailySales { get; set; }
         public DbSet<Withdrawal> Withdrawals { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
     }
 }
