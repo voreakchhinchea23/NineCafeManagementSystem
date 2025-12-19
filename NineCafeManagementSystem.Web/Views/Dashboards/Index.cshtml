@@ -5,14 +5,33 @@
     var today = DateOnly.FromDateTime(DateTime.Today);
 }
 
-<h1>Nine Cafe</h1>
-<h5>Sales for @Model.SelectedDate.ToString("dd-MM-yyyy")</h5>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h1 mb-0">Dashboard</h1>
+</div>
 
-<!-- Date Picker -->
-<form method="get" class="mb-3">
-    <label for="date" class="form-label">View Sales For: </label>
-    <input type="date" name="date" value="@Model.SelectedDate.ToString("yyyy-MM-dd")" class="form-control" style="width: auto; display: inline-block;" />
-    <button type="submit" class="btn btn-secondary btn-sm ms-2">Go</button>
+<!-- Date Picker with Navigation -->
+<form method="get" class="mb-4" id="dateForm">
+    <div class="row align-items-center g-2">
+        <div class="col-auto">
+            <label class="form-label mb-0">View Sales For:</label>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-secondary" id="prevDay" formnovalidate>
+                &lt;
+            </button>
+        </div>
+        <div class="col-auto">
+            <input type="date" id="datePicker" name="date"
+                   value="@Model.SelectedDate.ToString("yyyy-MM-dd")"
+                   max="@DateTime.Today.ToString("yyyy-MM-dd")"
+                   class="form-control" style="width: 160px;" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-primary" id="todayBtn" formnovalidate>
+                Today
+            </button>
+        </div>
+    </div>
 </form>
 
 <!-- Price Buttons (Responsive Row) -->
@@ -24,7 +43,7 @@
             <div class="col-auto">
                 <form asp-action="RecordSale" method="post" class="d-inline">
                     <input type="hidden" name="priceRiel" value="@item.PriceRiel" />
-                    <button type="submit" class="btn btn-outline-primary btn-lg px-4">
+                    <button type="submit" class="btn btn-primary btn-lg px-4">
                         @item.PriceRiel
                     </button>
                 </form>
@@ -33,26 +52,208 @@
     </div>
 }
 
-<!-- Sales Table -->
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Price</th>
-            <th>Cups Sold</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.PriceTiers)
+<h5 class="mb-3">Sales for @Model.SelectedDate.ToString("dd/MM/yyyy")</h5>
+
+@if (Model.TodaySales.Any())
+{
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        @if (User.IsInRole(Roles.Staff))
         {
-            var qty = Model.TodaySales.TryGetValue(item.Id, out var q) ? q : 0;
-            <tr>
-                <td>@item.PriceRiel</td>
-                <td>@qty</td>
-                <td>
-                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                </td>
-            </tr>
+            <div class="col-xxl-12 mb-1">
+                <div class="card text-white bg-primary">
+                    <div class="card-body py-2 text-center">
+                        <small class="text-uppercase">Total Cups Sold</small>
+                        <h4 class="mb-0">@Model.TotalCupSold</h4>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+        else{
+
+            <div class="col-md-4 mb-1">
+                <div class="card text-white bg-primary">
+                    <div class="card-body py-2 text-center">
+                        <small class="text-uppercase">Total Cups Sold</small>
+                        <h4 class="mb-0">@Model.TotalCupSold</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-1">
+                <div class="card text-white bg-success">
+                    <div class="card-body py-2 text-center">
+                        <small class="text-uppercase">Total Income</small>
+                        <h4 class="mb-0">@Model.DailyIncome.ToString("N0") Riel</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-1">
+                <div class="card text-white bg-danger">
+                    <div class="card-body py-2 text-center">
+                        <small class="text-uppercase">Total Withdrawn</small>
+                        <h4 class="mb-0">@Model.TotalWithdrawnToday.ToString("N0") Riel</h4>
+                    </div>
+                </div>
+            </div>
+        }
+        
+
+        
+    </div>
+
+    <!-- Sales Table -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Price</th>
+                    <th>Cups Sold</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PriceTiers)
+                {
+                    var qty = Model.TodaySales.TryGetValue(item.Id, out var q) ? q : 0;
+                    if (qty != 0)
+                    {
+                        <tr>
+                            <td>@item.PriceRiel</td>
+                            <td>@qty</td>
+                            <td class="text-end">
+                                @if (Model.SelectedDate == today && User.IsInRole(Roles.Admin))
+                                {
+                                    <div class="d-inline-flex align-items-center">
+                                        <input type="number"
+                                               value="@qty"
+                                               min="0"
+                                               class="form-control form-control-sm me-2"
+                                               style="width: 60px;"
+                                               data-id="@item.Id" />
+                                        <button class="btn btn-sm btn-warning btnEdit" data-id="@item.Id">
+                                            ✏️
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    
+    
+    <!-- Withdrawals Section -->
+    @if (Model.SelectedDate == today)
+    {
+        <div class="mt-5">
+            <h5>Record Withdrawal</h5>
+            <form asp-action="RecordWithdrawal" method="post" class="row g-2">
+                <div class="col-md-3 ">
+                    <input type="number" step="1" name="Amount" class="form-control" placeholder="Amount" required min="1" />
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="Reason" class="form-control" placeholder="Reason" required maxlength="255" />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-danger w-100">Save</button>
+                </div>
+            </form>
+        </div>
+    }
+
+    <!-- Today's Withdrawals List -->
+    @if (Model.TotalWithdrawals.Any())
+    {
+        <div class="mt-4">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Amount</th>
+                            <th>Reason</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var w in Model.TotalWithdrawals)
+                        {
+                            <tr>
+                                <td>@w.Amount.ToString("N0") </td>
+                                <td>@w.Reason</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-warning d-flex align-items-center" role="alert">
+        <i class="bi bi-info-circle me-2"></i>
+        No Sale Record.
+    </div>
+}
+
+<!-- Hidden Form for Edit -->
+<form asp-action="Edit" id="editSaleForm">
+    <input type="hidden" name="priceTierId" id="editPriceId" />
+    <input type="hidden" name="quantity" id="editQuantity" />
+</form>
+
+@section Scripts {
+    <script>
+        $(function(){
+            $('.btnEdit').click(function(e){
+                var btn = $(this);
+                var id = btn.data("id");
+                var qty = btn.siblings('input').val();
+
+                swal({
+                    title: "Confirm Edit?",
+                    text: "Update quantity to " + qty + "?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: false
+                }).then((confirm) => {
+                    if(confirm){
+                        $('#editPriceId').val(id);
+                        $('#editQuantity').val(qty);
+                        $('#editSaleForm').submit();
+                    }
+                });
+            });
+        });
+
+        // Date picker navigation
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('dateForm');
+            const datePicker = document.getElementById('datePicker');
+            const prevDayBtn = document.getElementById('prevDay');
+            const todayBtn = document.getElementById('todayBtn');
+            const today = new Date().toISOString().split('T')[0];
+
+            prevDayBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const currentDate = new Date(datePicker.value);
+                currentDate.setDate(currentDate.getDate() - 1);
+                datePicker.value = currentDate.toISOString().split('T')[0];
+                form.submit();
+            });
+
+            todayBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                datePicker.value = today;
+                form.submit();
+            });
+        });
+    </script>
+}
