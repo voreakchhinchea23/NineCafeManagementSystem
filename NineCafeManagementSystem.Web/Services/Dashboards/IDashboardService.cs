@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace NineCafeManagementSystem.Web.Services.Dashboards
 {
     public interface IDashboardService
@@ -7,6 +8,7 @@ namespace NineCafeManagementSystem.Web.Services.Dashboards
         Task EditSaleAsync(int priceTierId, int quantity);
         Task EditWithdrawalAsync(WithdrawalUpdateVM model);
         Task<DashboardSummaryVM> GetDashboardSummaryAsync(DateOnly date);
+        Task<MonthlyReportVM> GetMonthlyReportAsync(int year, int month);
         Task<Dictionary<int, int>> GetSaleByDateAsync(DateOnly date);
         Task<List<Withdrawal>> GetWithdrawalByDateAsync(DateOnly date);
         Task<WithdrawalUpdateVM?> GetWithdrawalUpdateAsync(int id);
