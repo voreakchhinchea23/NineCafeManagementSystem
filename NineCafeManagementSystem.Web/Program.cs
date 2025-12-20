@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NineCafeManagementSystem.Web.Data;
 using NineCafeManagementSystem.Web.Services.Dashboards;
+using NineCafeManagementSystem.Web.Services.Reports;
 
 namespace NineCafeManagementSystem.Web
 {
@@ -24,6 +25,7 @@ namespace NineCafeManagementSystem.Web
             builder.Services.AddScoped<IDashboardService , DashboardService>();
             builder.Services.AddScoped<ISupplierService, SupplierService>();
             builder.Services.AddScoped<IExpenseService, ExpenseService>();
+            builder.Services.AddScoped<IReportService,  ReportService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

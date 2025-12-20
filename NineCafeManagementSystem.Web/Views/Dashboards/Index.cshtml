@@ -215,12 +215,21 @@
                                 <td>@w.Amount.ToString("N0") </td>
                                 <td>@w.Reason</td>
                                 <td class="text-end">
-                                    <a asp-action="EditWithdrawal" asp-route-id="@w.Id" class="btn btn-sm btn-warning">Edit</a>
-                                    @if (User.IsInRole(Roles.Admin))
+                                    @if (Model.SelectedDate == today){
+                                        <a asp-action="EditWithdrawal" asp-route-id="@w.Id" class="btn btn-sm btn-warning">Edit</a>
+                                        @if (User.IsInRole(Roles.Admin))
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-danger btnDelete" data-id="@w.Id">Delete</button>
+                                        }
+                                    }
+                                    else
                                     {
-                                        <button type="submit" class="btn btn-sm btn-danger btnDelete" data-id="@w.Id">Delete</button>
+                                        <span>-</span>
                                     }
                                 </td>
+                                
+                                
+                                
                             </tr>
                         }
                     </tbody>

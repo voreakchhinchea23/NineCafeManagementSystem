@@ -11,5 +11,9 @@
         public string Description { get; set; }
         [Display(Name = "Other")]
         public string? Other { get; set; }
+
+        // usd
+        public const decimal ExchangeRate = 4000;
+        public decimal AmountInUSD => Math.Round(Amount / ExchangeRate, 2);
     }
 }

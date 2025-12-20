@@ -20,3 +20,4 @@ global using NineCafeManagementSystem.Web.Models.Expenses;
 global using NineCafeManagementSystem.Web.Services.ExpenseServices;
 global using NineCafeManagementSystem.Web.Models.Reports;
 global using System.Globalization;
+global using NineCafeManagementSystem.Web.Services.Reports;

@@ -12,7 +12,7 @@
 <form method="get" class="row mb-4 g-2">
     <div class="col-auto">
         <select name="month" class="form-select">
-            @foreach (int m in ViewBag.Months)
+            @foreach (var m in Model.AvailableMonths)
             {
                 <option value="@m" selected="@(m == Model.Month)">@DateTimeFormatInfo.CurrentInfo.GetMonthName(m)</option>
             }
@@ -20,7 +20,7 @@
     </div>
     <div class="col-auto">
         <select name="year" class="form-select">
-            @foreach (int y in ViewBag.Years)
+            @foreach (var y in Model.AvailableYears)
             {
                 <option value="@y" selected="@(y == Model.Year)">@y</option>
             }
