@@ -32,15 +32,15 @@
                                     Managements
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Suppliers" asp-action="Index">Manage Supplier</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="PriceTiers" asp-action="Index">Manage Price</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Suppliers" asp-action="Index">Supplier</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="PriceTiers" asp-action="Index">Price</a></li>
                                     
-                                    <li><hr class="dropdown-divider"></li>
                                     @if (User.IsInRole(Roles.Admin))
                                     {
-                                        <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">Manage User</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Expenses" asp-action="Index">Manage Expense</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Reports" asp-action="Index">Monthly Report</a></li>
+                                        
+                                        <li><a class="dropdown-item" asp-controller="Expenses" asp-action="Index">Expense</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Reports" asp-action="Index">Report</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">User</a></li>
                                     }
                                     
                                 </ul>

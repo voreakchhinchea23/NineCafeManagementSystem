@@ -9,7 +9,7 @@
             await CreateUserWithRole(
                 userManager,
                 "admin@ninecafe.com",
-                "P@ssword1",
+                "Admin@999",
                 "Default",
                 "Admin",
                 Roles.Admin);

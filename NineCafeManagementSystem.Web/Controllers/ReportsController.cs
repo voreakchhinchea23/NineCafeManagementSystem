@@ -19,5 +19,11 @@ namespace NineCafeManagementSystem.Web.Controllers
 
             return View(report);
         }
+        public async Task<IActionResult> ExportMonthly(int year, int month)
+        {
+            var fileBytes = await _reportService.GenerateMonthlyReportExcelAsync(year, month);
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        $"NineCafe_Report_{year}_{month:00}.xlsx");
+        }
     }
 }
