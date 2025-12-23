@@ -138,9 +138,3 @@ namespace NineCafeManagementSystem.Web.Services.Reports
         }
     }
 }
-public class DailyAmount
-{
-    public int Day { get; set; }
-    public decimal Amount { get; set; }
-    public int? CupsSold { get; set; }
-}

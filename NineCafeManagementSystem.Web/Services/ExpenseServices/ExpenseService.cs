@@ -80,6 +80,22 @@ namespace NineCafeManagementSystem.Web.Services.ExpenseServices
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<List<ExpenseReadOnlyVM>> GetExpensesByMonthAsync(int year, int month)
+        {
+            return await _context.Expenses
+                .Where(q => q.ExpenseDate.Year == year && q.ExpenseDate.Month == month)
+                .Select(q => new ExpenseReadOnlyVM
+                {
+                    Id = q.Id,
+                    Amount = q.Amount,
+                    ExpenseDate = q.ExpenseDate,
+                    Description = q.Description,
+                    Other = q.Other
+                })
+                .OrderByDescending(q => q.ExpenseDate)
+                .ToListAsync();
+        }
+
         public async Task RemoveExpenseAysnc(int id)
         {
             var entity = await _context.Expenses.FindAsync(id);

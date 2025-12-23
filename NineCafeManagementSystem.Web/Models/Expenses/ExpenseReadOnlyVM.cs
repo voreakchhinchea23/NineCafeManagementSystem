@@ -5,7 +5,7 @@
         public int Id { get; set; }
         [Display(Name = "Date")]
         public DateOnly ExpenseDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-        [Display(Name = "Amount")]
+        [Display(Name = "Amount (Riel)")]
         public decimal Amount { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
@@ -14,6 +14,9 @@
 
         // usd
         public const decimal ExchangeRate = 4000;
+        [Display(Name = "Amount (USD)")]
         public decimal AmountInUSD => Math.Round(Amount / ExchangeRate, 2);
+
+        
     }
 }

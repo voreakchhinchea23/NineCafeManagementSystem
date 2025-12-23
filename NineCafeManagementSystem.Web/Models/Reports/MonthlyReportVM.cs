@@ -13,7 +13,7 @@ namespace NineCafeManagementSystem.Web.Models.Reports
 
 
         // in usd
-        public const decimal ExchangeRate = 4000; 
+        public const decimal ExchangeRate = 4000;
         public decimal TotalIncomeUsd => Math.Round(TotalIncome / ExchangeRate, 2);
         public decimal TotalExpensesUsd => Math.Round(TotalExpense / ExchangeRate, 2);
         public decimal ProfitUsd => Math.Round(Profit / ExchangeRate, 2);

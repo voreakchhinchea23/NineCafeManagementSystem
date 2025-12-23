@@ -1,16 +1,30 @@
 ﻿
 
+using DocumentFormat.OpenXml.Bibliography;
+
 namespace NineCafeManagementSystem.Web.Controllers
 {
     [Authorize(Roles = Roles.Admin)]
     public class ExpensesController(IExpenseService _expenseService) : Controller
     {
-        
-
         // GET: Expenses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? year = null, int? month = null)
         {
-            return View(await _expenseService.GetAllExpensesAsync());
+            var now = DateTime.Now;
+            var expenseYear = year ?? now.Year;
+            var expenseMonth = month ?? now.Month;
+
+            var expenses = await _expenseService.GetExpensesByMonthAsync(expenseYear, expenseMonth);
+
+            // Prepare dropdowns
+            ViewBag.Years = Enumerable.Range(now.Year - 2, 3);
+            ViewBag.Months = Enumerable.Range(1, 12);
+
+            // Pass data to view
+            ViewBag.SelectedYear = expenseYear;
+            ViewBag.SelectedMonth = expenseMonth;
+
+            return View(expenses);
         }
 
         // GET: Expenses/Details/5
