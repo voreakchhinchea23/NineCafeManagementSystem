@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignore user seeder with sensitive data
+NineCafeManagementSystem.Web/Data/Seeders/UserSeeder.cs
