@@ -1,10 +1,4 @@
-using NineCafeManagementSystem.Web.Data.Seeders;
-using NineCafeManagementSystem.Web.Services.Users;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using NineCafeManagementSystem.Web.Data;
-using NineCafeManagementSystem.Web.Services.Dashboards;
-using NineCafeManagementSystem.Web.Services.Reports;
+
 
 namespace NineCafeManagementSystem.Web
 {
@@ -16,16 +10,17 @@ namespace NineCafeManagementSystem.Web
 
             // Add connectionstring
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") 
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
             // register services
-            builder.Services.AddScoped<IPriceTierService, PriceTierService>(); 
+            builder.Services.AddScoped<IPriceTierService, PriceTierService>();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IDashboardService , DashboardService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
             builder.Services.AddScoped<ISupplierService, SupplierService>();
             builder.Services.AddScoped<IExpenseService, ExpenseService>();
-            builder.Services.AddScoped<IReportService,  ReportService>();
+            builder.Services.AddScoped<IReportService, ReportService>();
+            builder.Services.AddScoped<IDeptService, DeptService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

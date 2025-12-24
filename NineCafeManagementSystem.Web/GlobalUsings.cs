@@ -22,3 +22,6 @@ global using NineCafeManagementSystem.Web.Models.Reports;
 global using System.Globalization;
 global using NineCafeManagementSystem.Web.Services.Reports;
 global using ClosedXML.Excel;
+global using NineCafeManagementSystem.Web.Models.Depts;
+global using NineCafeManagementSystem.Web.Data.Seeders;
+global using NineCafeManagementSystem.Web.Services.Depts;

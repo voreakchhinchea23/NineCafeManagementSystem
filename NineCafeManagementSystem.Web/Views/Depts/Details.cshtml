@@ -1,0 +1,40 @@
+﻿@model DeptsReadOnlyVM
+
+@{
+    ViewData["Title"] = "Debt Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h4 mb-0">Debt Details for '@Model.CustomerName'</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3 fw-normal">Customer</dt>
+            <dd class="col-sm-9">@Model.CustomerName</dd>
+
+            <dt class="col-sm-3 fw-normal">Amount</dt>
+            <dd class="col-sm-9">@Model.Amount.ToString("N0") Riel</dd>
+
+            <dt class="col-sm-3 fw-normal">Date</dt>
+            <dd class="col-sm-9">@Model.DeptDate.ToString("dd/MM/yyyy")</dd>
+
+            @if (!Model.IsPaid)
+            {
+                <dt class="col-sm-3 fw-normal">Status</dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-danger">Unpaid</span>
+                </dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    @if (!Model.IsPaid)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning me-2">Edit</a>
+    }
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

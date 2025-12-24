@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DeptsReadOnlyVM>
+
+@{
+    ViewData["Title"] = "Customer Debts";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h4 mb-0">Customer Debts</h1>
+    <a asp-action="Create" class="btn btn-primary">Add Debt</a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Customer</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th class="text-end"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none;">
+                                @item.CustomerName
+                            </a>
+                        </td>
+                        <td>@item.Amount.ToString("N0") Riel</td>
+                        <td>@item.DeptDate.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (item.IsPaid)
+                            {
+                                <span class="badge bg-success">Paid</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger text-white">Unpaid</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            @if (!item.IsPaid)
+                            {
+                                <button class="btn btn-sm btn-success btnPaid" data-id="@item.Id">Paid</button>
+                            }
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info d-flex align-items-center">
+        <i class="bi bi-info-circle me-2"></i>
+        No debt records found.
+    </div>
+}
+
+
+<form asp-action="MarkPaid" id="paidForm">
+    <input type="hidden" name="id" id="paidId" />
+</form>
+
+@section Scripts {
+    <script>
+        $(function(){
+            $('.btnPaid').click(
+                function(e){
+                    swal({
+                        title: "Confirm Paid?",
+                        text: "Are you sure you want mark as Paid?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true
+                    }).then((confirm) => {
+                        if(confirm){
+                            var btn = $(this);
+                            var id = btn.data("id");
+                            $('#paidId').val(id);
+                            $('#paidForm').submit();
+                        }
+                    });
+                }
+            );
+        });
+    </script>
+}
