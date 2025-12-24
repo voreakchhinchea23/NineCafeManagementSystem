@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NineCafeManagementSystem.Web.Data;
-
-namespace NineCafeManagementSystem.Web.Controllers
+﻿namespace NineCafeManagementSystem.Web.Controllers
 {
     [Authorize]
     public class DeptsController(IDeptService _deptService) : Controller
     {
-        
+
         // GET: Depts
         public async Task<IActionResult> Index()
         {
@@ -49,7 +40,7 @@ namespace NineCafeManagementSystem.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DeptsCreateVM dept)
         {
-            if(await _deptService.CustomerNameExistsAsync(dept.CustomerName))
+            if (await _deptService.CustomerNameExistsAsync(dept.CustomerName))
             {
                 ModelState.AddModelError(nameof(dept.CustomerName), "Customer name is already in use.");
             }

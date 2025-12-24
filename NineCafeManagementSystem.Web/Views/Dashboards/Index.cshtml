@@ -15,7 +15,7 @@
                 <label class="form-label mb-0">View Sales For:</label>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-outline-secondary" id="prevDay" formnovalidate>
+                <button type="submit" class="btn btn-outline-secondary btn-sm" id="prevDay" formnovalidate>
                     &lt;
                 </button>
             </div>
@@ -45,7 +45,7 @@
                 <div class="card text-white bg-primary">
                     <div class="card-body py-2 text-center">
                         <small class="text-uppercase">Total Cups Sold</small>
-                        <h4 class="mb-0">@Model.TotalCupSold</h4>
+                        <h4 class="mb-0" >@Model.TotalCupSold</h4>
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
                 </div>
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-warning w-50">Update</button>
-                    <a asp-action="Index" class="btn btn-outline-secondary w-25">Cancel</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary w-auto">Cancel</a>
                 </div>
             </form>
         </div>

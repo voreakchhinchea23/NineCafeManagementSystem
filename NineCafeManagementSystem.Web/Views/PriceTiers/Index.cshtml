@@ -33,8 +33,8 @@
                 
                     @if (User.IsInRole(Roles.Admin))
                     {
-                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <button class="btn btn-sm btn-danger btnDelete" data-id="@item.Id">Delete</button>
+                        <a class="btn btn-sm btn-warning mb-1" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <button class="btn btn-sm btn-danger btnDelete mb-1" data-id="@item.Id">Delete</button>
                     }
                
             </td> *@
