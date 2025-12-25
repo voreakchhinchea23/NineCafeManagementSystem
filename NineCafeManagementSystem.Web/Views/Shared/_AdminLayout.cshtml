@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"] - Nine Cafe</title>
-    <link rel="shortcut icon" type="image/png" href="~/images/logos/cofee.png" />
+    <link rel="shortcut icon" type="image/png" href="~/images/logos/coffee-shop.png" />
     <link rel="stylesheet" href="~/css/styles.min.css" />
     <link href="~/lib/jqueryui/themes/base/jquery-ui.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -23,11 +23,13 @@
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar" data-simplebar>
-                <div class="d-flex mb-4 align-items-center justify-content-between">
-                    <a asp-controller="Dashboards" asp-action="Index" class="text-nowrap logo-img ms-0 ms-md-1">
-                        <img src="~/images/logos/cafe.png" width="100" alt=""> Nine Cafe
+                <div class="d-flex mb-4 align-items-center justify-content-center position-relative">
+                    <!-- Logo in the center -->
+                    <a asp-controller="Dashboards" asp-action="Index" class="text-nowrap logo-img">
+                        <img src="~/images/logos/ninecafelogo.png" width="100" alt="Nine Cafe Logo">
                     </a>
-                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+      
+                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer position-absolute end-0" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
                     </div>
                 </div>
@@ -114,7 +116,7 @@
                                 </a>
                             </li>
 
-                            <li class="sidebar-item">
+                            @* <li class="sidebar-item">
                                 <a class="sidebar-link sidebar-link primary-hover-bg"
                                    asp-controller="Users" asp-action="Index"
                                    aria-expanded="false">
@@ -123,7 +125,7 @@
                                     </span>
                                     <span class="hide-menu ms-2 ps-1">User</span>
                                 </a>
-                            </li>
+                            </li> *@
 
                         }
 
@@ -178,7 +180,7 @@
                                        aria-expanded="false">
                                         @if (User.IsInRole(Roles.Admin))
                                         {
-                                            <img src="~/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                                            <img src="~/images/profile/user-4.jpg" alt="" width="35" height="35" class="rounded-circle">
                                         }
                                         else
                                         {

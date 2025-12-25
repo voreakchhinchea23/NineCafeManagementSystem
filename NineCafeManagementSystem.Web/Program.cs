@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using NineCafeManagementSystem.Web.Data;
 
 
 namespace NineCafeManagementSystem.Web
