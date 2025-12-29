@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<DeptsReadOnlyVM>
 
 @{
-    ViewData["Title"] = "Customer Debts";
+    ViewData["Title"] = "Debt History";
+    int number = 1;
 }
-
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h4 mb-0">Customer Debts</h1>
+    <h1 class="h4 mb-0">Customer Debt's History</h1>
     <div class="d-flex gap-1">
-        <a asp-action="Create" class="btn btn-primary">Add Debt</a>
-        <a asp-action="History" class="btn btn-secondary">History</a>
+        <a asp-action="Index" class=" btn btn-secondary">Back</a>
     </div>
 </div>
 
@@ -18,6 +17,7 @@
         <table class="table table-hover align-middle">
             <thead class="table-light">
                 <tr>
+                    <th>#</th>
                     <th>Customer</th>
                     <th>Amount</th>
                     <th>Date</th>
@@ -28,8 +28,8 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    
                     <tr>
+                        <td>@number</td>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none;">
                                 @item.CustomerName
@@ -38,14 +38,23 @@
                         <td>@item.Amount.ToString("N0") Riel</td>
                         <td>@item.DeptDate.ToString("dd/MM/yyyy")</td>
                         <td>
-                            <span class="badge bg-danger text-white">Unpaid</span>
+                            @if (item.IsPaid)
+                            {
+                                <span class="badge bg-success">Paid</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger text-white">Unpaid</span>
+                            }
                         </td>
                         <td class="text-end">
-                            <button class="btn btn-sm btn-success mb-1 btnPaid" data-id="@item.Id">Paid</button>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning mb-1">Edit</a>
+                            
+                            @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning mb-1">Edit</a> *@
                             <button class="btn btn-sm btn-danger mb-1 btnDelete" data-id="@item.Id">Delete</button>
                         </td>
                     </tr>
+
+                    number++;
                 }
             </tbody>
         </table>
@@ -55,31 +64,23 @@ else
 {
     <div class="alert alert-info d-flex align-items-center">
         <i class="bi bi-info-circle me-2"></i>
-        No outstanding debts.
+        No debt records found.
     </div>
 }
 
-<!-- Delete form -->
-<form asp-action="Delete"  id="deleteForm">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="id" id="deleteId" />
-</form>
 
-<!-- Paid form -->
-<form asp-action="MarkPaid" id="paidForm">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="id" id="paidId" />
-    
+<form asp-action="Delete" id="deleteForm">
+    <input type="hidden" name="id" id="deleteId" />
 </form>
 
 @section Scripts {
     <script>
         $(function(){
-            $('.btnPaid').click(
+            $('.btnDelete').click(
                 function(e){
                     swal({
-                        title: "Mark As Paid?",
-                        text: "Are you sure you want to mark this as paid?",
+                        title: "Delete this?",
+                        text: "Are you sure you want delete this?",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true
@@ -87,29 +88,12 @@ else
                         if(confirm){
                             var btn = $(this);
                             var id = btn.data("id");
-                            $('#paidId').val(id);
-                            $('#paidForm').submit();
+                            $('#deleteId').val(id);
+                            $('#deleteForm').submit();
                         }
                     });
                 }
             );
-        });
-
-        $(function(){
-            $('.btnDelete').click(function(e){
-                swal({
-                    title: "Delete this debt?",
-                    text: "Are you sure you want to delete this debt?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true
-                }).then((confirm) => {
-                    if(confirm){
-                        $('#deleteId').val($(this).data("id"));
-                        $('#deleteForm').submit();
-                    }
-                });
-            });
         });
     </script>
 }

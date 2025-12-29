@@ -21,9 +21,24 @@ namespace NineCafeManagementSystem.Web.Services.Depts
             return _context.Depts.Any(q => q.Id == id);
         }
 
-        public async Task<List<DeptsReadOnlyVM>> GetAllDeptsAsync()
+        public async Task<List<DeptsReadOnlyVM>> GetUnpaidDebtsAsync()
         {
             return await _context.Depts
+                .Where(q => q.IsPaid == false)
+                .Select(q => new DeptsReadOnlyVM
+                {
+                    Id = q.Id,
+                    CustomerName = q.CustomerName,
+                    Amount = q.Amount,
+                    DeptDate = q.DeptDate,
+                    IsPaid = q.IsPaid
+                })
+                .ToListAsync();
+        }
+        public async Task<List<DeptsReadOnlyVM>> GetPaidDeptsAsync()
+        {
+            return await _context.Depts
+                .Where(q => q.IsPaid)
                 .Select(q => new DeptsReadOnlyVM
                 {
                     Id = q.Id,
@@ -85,12 +100,12 @@ namespace NineCafeManagementSystem.Web.Services.Depts
                );
         }
 
-        public Task<bool> CustomerNameExistsAsync(string customerName)
+        public async Task<bool> CustomerNameExistsAsync(string customerName)
         {
-            return _context.Depts.AnyAsync(q => q.CustomerName == customerName);
+            return await _context.Depts.AnyAsync(q => q.CustomerName == customerName);
         }
 
-        public async Task<bool> CustomerNameAlreadyInUseByAnotherAsync(int id, string customername)
+        public async Task<bool> CustomerNameAlreadyInUseByAnotherAsync(int? id, string customername)
         {
             if (string.IsNullOrWhiteSpace(customername))
             {
@@ -98,9 +113,20 @@ namespace NineCafeManagementSystem.Web.Services.Depts
             }
             var normalized = customername.Trim();
             return await _context.Depts
+                .Where(q => q.IsPaid == false)
                 .AnyAsync(q => q.Id != id
                 && !string.IsNullOrEmpty(q.CustomerName)
                 && q.CustomerName.Trim() == normalized);
+        }
+       
+        
+
+        public async Task MarkDeptAsPaidAsync(int id)
+        {
+            await _context.Depts
+                .Where(q => q.Id == id)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(e => e.IsPaid, true));
         }
     }
 }

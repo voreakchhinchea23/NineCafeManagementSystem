@@ -7,7 +7,14 @@
         // GET: Depts
         public async Task<IActionResult> Index()
         {
-            return View(await _deptService.GetAllDeptsAsync());
+            var unpaidDebts = await _deptService.GetUnpaidDebtsAsync();
+            return View(unpaidDebts);
+        }
+
+        // GET: Depts/History
+        public async Task<IActionResult> History()
+        { 
+           return View(await _deptService.GetPaidDeptsAsync());
         }
 
         // GET: Depts/Details/5
@@ -33,14 +40,12 @@
             return View();
         }
 
-        // POST: Depts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Depts/Create   
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DeptsCreateVM dept)
         {
-            if (await _deptService.CustomerNameExistsAsync(dept.CustomerName))
+            if (await _deptService.CustomerNameAlreadyInUseByAnotherAsync(null, dept.CustomerName))
             {
                 ModelState.AddModelError(nameof(dept.CustomerName), "Customer name is already in use.");
             }
@@ -69,11 +74,9 @@
         }
 
         // POST: Depts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, DeptsUpdateVM dept)
+        public async Task<IActionResult> Edit(int? id, DeptsUpdateVM dept)
         {
             if (id != dept.Id)
             {
@@ -109,10 +112,20 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MarkPaid(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _deptService.RemoveDeptAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MarkPaid(int id)
+        {
+            await _deptService.MarkDeptAsPaidAsync(id);
+            return RedirectToAction(nameof(Index));
+
+        }
+
     }
 }

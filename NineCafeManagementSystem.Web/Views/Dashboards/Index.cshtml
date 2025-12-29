@@ -299,18 +299,25 @@ else
         });
 
         // Date picker navigation
-        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('dateForm');
             const datePicker = document.getElementById('datePicker');
             const prevDayBtn = document.getElementById('prevDay');
             const todayBtn = document.getElementById('todayBtn');
-            const today = new Date().toISOString().split('T')[0];
+
+            function formatDateToLocal(date) {
+                return date.getFullYear() + '-' +
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(date.getDate()).padStart(2, '0');
+            }
+
+            const today = formatDateToLocal(new Date());
 
             prevDayBtn.addEventListener('click', function (e) {
                 e.preventDefault();
                 const currentDate = new Date(datePicker.value);
                 currentDate.setDate(currentDate.getDate() - 1);
-                datePicker.value = currentDate.toISOString().split('T')[0];
+                datePicker.value = formatDateToLocal(currentDate);
                 form.submit();
             });
 
